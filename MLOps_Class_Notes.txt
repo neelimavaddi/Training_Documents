@@ -1216,3 +1216,374 @@ Next :::
 			--> git revert creates the commit points to track the changes 
 			--> git revert is highly recommended to use in the shared repositories
 
+
+
+######################
+Day-4 | 5th Mar. 2026
+######################
+
+	- GIT 
+	
+	- DVC -> AWS Resources -> IAM Service / S3 Bucket / EC2 Instance
+
+	
+	- git revert ::::
+	
+		--> Is also same as git reset --hard 
+		--> git revert creates the commit points to track the changes 
+		--> git revert is highly recommended to use in the shared repositories	
+		--> Maintain clean commit history
+		
+		git revert <specific_commit_id>
+		
+		
+		c5	HEAD
+		c4
+		c3	--> undo this specific commit
+		c2
+		c1
+		
+	
+	- Git Branching :::
+	
+	- Git Branching Strategies :::
+	
+	- git branch :
+	
+		- It is a logical copy of the repository(default branch - master/main)
+		- Used to perform parallel development 
+	
+	
+	- Git Branching Strategies :::
+	
+		-> Branching Strategies are used to maintain the integrity of the main/master branch.
+		
+			Application_repository 
+			
+				master/main branch 		--> Production version of the source code 
+				dev 		
+				feature branch
+				
+				
+	Scenario 1: 
+	
+		Repo : 
+			master - cm1,cm2
+					- cm1,cm2,f1cm1,f1cm2,f1cm3					# upon merging changes from feature_branch
+			
+				feature_branch - cm1,cm2
+				
+								- cm1,cm2,f1cm1,f1cm2,f1cm3
+			
+				
+	Scenario 2: 
+		Repo : 
+			master - cm1,cm2
+			
+					- cm1,cm2,cm3 			# cm3 is the changes from Developer_Branch
+			
+				Developer_Branch - cm1,cm2
+									- cm1,cm2,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+			
+					feature1_Branch - cm1,cm2
+					
+									 - cm1,cm2,f1cm1,f1cm2,f1cm3
+					
+					feature2_Branch - cm1,cm2
+					
+									- cm1,cm2,f2cm1,f2cm2,f2cm3
+									
+									
+
+	Scenario 3: 
+		Repo : 
+			master - cm1,cm2
+			
+					- cm1,cm2,cm3 			# cm3 is the changes from Integration_Branch
+					
+				Integration_Branch - cm1,cm2	
+									 - cm1,cm2,Developer1_Changes,Developer2_Changes
+				
+					Developer1_Branch - cm1,cm2
+										- cm1,cm2,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+				
+						feature1_Branch - cm1,cm2
+						
+										 - cm1,cm2,f1cm1,f1cm2,f1cm3
+						
+						feature2_Branch - cm1,cm2
+						
+										- cm1,cm2,f2cm1,f2cm2,f2cm3										
+										
+					Developer2_Branch - cm1,cm2
+										- cm1,cm2,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+				
+						feature1_Branch - cm1,cm2
+						
+										 - cm1,cm2,f1cm1,f1cm2,f1cm3
+						
+						feature2_Branch - cm1,cm2
+						
+										- cm1,cm2,f2cm1,f2cm2,f2cm3
+										
+
+	Scenario 4: 
+		Repo : 
+			master - cm1,cm2
+			
+					- cm1,cm2,cm3 			# cm3 is the changes from Release_Branch
+					
+				Release_Branch - cm1,cm2,Team1_Changes,Team2_Changes
+					
+					Integration_Branch1 - cm1,cm2													# Team1	
+										 - cm1,cm2,Developer1_Changes,Developer2_Changes
+					
+						Developer1_Branch - cm1,cm2
+											- cm1,cm2,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+					
+							feature1_Branch - cm1,cm2
+							
+											 - cm1,cm2,f1cm1,f1cm2,f1cm3
+							
+							feature2_Branch - cm1,cm2
+							
+											- cm1,cm2,f2cm1,f2cm2,f2cm3										
+											
+						Developer2_Branch - cm1,cm2
+											- cm1,cm2,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+					
+							feature1_Branch - cm1,cm2
+							
+											 - cm1,cm2,f1cm1,f1cm2,f1cm3
+							
+							feature2_Branch - cm1,cm2
+							
+											- cm1,cm2,f2cm1,f2cm2,f2cm3
+											
+										
+					Integration_Branch2 - cm1,cm2													# Team2	
+										 - cm1,cm2,Developer1_Changes,Developer2_Changes
+					
+						Developer1_Branch - cm1,cm2
+											- cm1,cm2,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+					
+							feature1_Branch - cm1,cm2
+							
+											 - cm1,cm2,f1cm1,f1cm2,f1cm3
+							
+							feature2_Branch - cm1,cm2
+							
+											- cm1,cm2,f2cm1,f2cm2,f2cm3										
+											
+						Developer2_Branch - cm1,cm2
+											- cm1,cm2,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+					
+							feature1_Branch - cm1,cm2
+							
+											 - cm1,cm2,f1cm1,f1cm2,f1cm3
+							
+							feature2_Branch - cm1,cm2
+							
+											- cm1,cm2,f2cm1,f2cm2,f2cm3
+									
+
+									
+	- How to Create the Branches :::
+	
+		- git branch 					# To get the list of branches 
+		
+		- git branch New_feature1 		# To Create a New Branch 
+		
+		- git switch -c New_feature1	# To Create a New Branch & switch the control to that New Branch
+		
+		- git switch feature1 			# Switch to feature1 Branch  
+		
+		- git merge feature1			# To Merge the changes from feature1 Branch into the target branch
+										# Should be executed on the target branch
+		
+		
+		
+		Repo1:
+			master - cm1 
+			
+				feature2 - cm1
+							- cm1, f2cm1
+				
+				git switch master 
+				
+				git merge feature1		# Should be executed on the target branch
+				
+			
+	- Handle Merge Conflict:::
+	
+		- How Merge Conflict Occur ???
+				
+			- When more than one user/feature try to update same file at the same level, merge conflict occurs.
+			
+		- Fix the Merge Conflict ???		
+		
+			- Identify the file(s) causing the merge conflicts
+			- Open the file and review the changes 
+			- Upon review, decide which changes to be retained/delete from that file(s).
+			- Update the file by removing the extra header/footer notes and contents.
+			- Perform git add and git commit to fix the issue.
+			
+			
+	- On DevOps Perspective :::
+	
+			- We never expect the developers to fix the merge conflict, Instead, we always try to prevent the Merge Conflict in the master branch.
+			
+	
+	
+	- Git Rebase :
+	
+		- Rebase is used to maintain linear commit history 
+		- Rebase is used to keep the current branch in-sync with target branch within a Local Repository
+		- Rebase can prevent merge-conflicts in the target branch 
+		- As a best practise, it is always recommended to use rebase before merge		
+		
+		
+		
+		- Repo:
+			master - cm1,cm2,cm3 
+			
+					- cm1,cm2,cm3,f1cm1,f1cm2,f1cm3							# Upon merging from feature1
+					
+					- cm1,cm2,cm3,f2cm1,f2cm2,f2cm3,f1cm1,f1cm2,f1cm3		# Upon merging from feature2 without proper Rebase.
+					
+					- cm1,cm2,cm3,f1cm1,f1cm2,f1cm3,,f2cm1,f2cm2,f2cm3		# Expected Commit History with proper Rebase.
+					
+			
+				feature1 - cm1,cm2,cm3 
+				
+						- cm1,cm2,cm3,f1cm1,f1cm2,f1cm3
+						
+						git switch master 
+												
+						git merge feature1
+				
+			
+				feature2 - cm1,cm2,cm3 	
+				
+						- cm1,cm2,cm3,f2cm1,f2cm2,f2cm3
+						
+						git rebase master 									# Run this command on the feature2 Branch
+						
+						- cm1,cm2,cm3,f1cm1,f1cm2,f1cm3,f2cm1,f2cm2,f2cm3
+						
+			
+						git switch master 
+												
+						git merge feature2			
+			
+			
+			
+		- Git Squash :::
+		
+			- Is a Merge Option 
+			- Is used to combine more than one commits into a single commit point. 
+			
+			
+			Repo: 
+				master : cm1,cm2 
+					
+				
+					- cm1,cm2,f1cm1,f1cm2,f1cm3,.....................................,f1cm200 			# Upon merging feature1
+					
+					
+				
+					feature1 : cm1,cm2
+					
+						- cm1,cm2,f1cm1,f1cm2,f1cm3,.....................................,f1cm200
+		
+		
+						git switch master 
+						
+						#git merge feature1 
+						
+						
+						git merge --squash feature1 
+						
+						git commit -m "cm3 - changes from feature"
+						
+	
+	
+	- Remote Github Repository ::::
+						
+		- Github 
+		
+		- Create Remote Git repository 
+		
+		- Create Branches 
+		
+		- Work with Pull Request and Misc. Github setting 
+		
+		
+		- Create Pull Request :::
+		
+		
+		- Perform Git Clone #
+
+
+				git clone <remote_repo_url>
+				
+				
+				Eg.: 
+				
+				git clone https://github.com/Edu-MLOps-2803/TestRemoteRepo1.git
+				
+				git remote -v				# get the list of remote repos that are linked with the local repository
+				
+				git remote add 				# Link the Remote Repo to Local  
+				
+					-  git remote add origin https://github.com/Edu-MLOps-2803/TestRemoteRepo1.git
+				
+				
+				git remote remove origin 	# To Remove Remote Repo.
+				
+					- 
+				
+				 
+				git push :
+
+					git push -u origin <branch_name>
+					
+					
+					- Create GitHub Access Token :::
+					
+						- goto github account level settings 
+						
+	-	git clone 			# To Copy/clone the entire remote repository to Local Machine 
+	
+	- 	git add				# To add the changes from Working_Directory to Staging_Area
+	
+	- 	git commit 			# To Create a permanent commit from staging area to the Local Repository
+	
+	- 	git push 			# To Push the changes from Local Repository to Remote Repository
+	
+	- 	git fetch/pull 		
+				- Both are used to handle the incremental changes from Remote Repository
+				
+				
+			- git fetch ::
+			
+					# It will check for the incremental changes in the remote repository, if the incremental changes existing, git fetch will update only the Local Repository. It will never update the Working Directory.
+					# Developers need to do explicit merge / pull to bring the changes to Working Directory
+	
+		
+			- git pull ::
+			
+					# It will check for the incremental changes in the remote repository, if the incremental changes existing, git pull will update only the Local Repository as well the Working Directory.			
+Next :::		
+		
+		- AWS Management Console :::
+		
+			- Create IAM User 
+			
+			- IAM Policy & Roles 
+			
+			- AWS S3 
+			
+			- AWS EC2 
+			
+		- DVC 

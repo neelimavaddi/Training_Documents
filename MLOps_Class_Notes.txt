@@ -1865,3 +1865,322 @@ Next :::
 	--> Deploy using Kubernetes 
 	
 	--> CICD using Github-Actions
+
+
+
+
+######################
+Day-6 | 12th Apr. 2026
+######################						
+
+
+	- Create Python Virtual Environment to work with MLOps Tools
+
+		python3.12 -m venv venv
+
+		source venv/bin/activate
+
+
+		pip install dvc_s3									# Install DVC-s3 
+															# https://doc.dvc.org/install
+	
+		Use DVC to Version_Control the ML Dataset 
+		
+			AWS s3 --> Dataset
+			
+			git & dvc together ::::
+	
+	requirements.txt --> 
+	
+	
+	- Packaging the ML Model :
+	
+		- Docker 
+		
+		- Kubernetes
+		
+		
+	- ML Projects :::
+	
+	- Dev 
+	
+	- Build Environment : 
+	
+		- dvc --> Pipeline 
+		
+			--> process the dataset 
+			--> validate 
+			--> train the model 
+			
+			--> Create Artifacts 
+		
+		
+	
+	
+	- Packaging the ML Model :
+	
+		- Docker 		:::
+		
+		
+		- Containerization ::::	Is a process of package the Applications along with its dependencies.
+		
+		Continuous Deployment ::: Micro-Service Based 
+		
+		- Containerize the ML Model :::
+		
+	
+					Version_Control :
+					
+						- git 		->	Source Code 					
+						
+						- dvc & S3  ->  ML Datasets & Metadata 
+						
+						- DockerHub/ECR/ECS  -> 	Container Images 
+		
+								https://hub.docker.com/
+
+	Working with Docker :::
+	
+		
+		- Docker Container Engine : DockerHub is the default Container Registry 
+		
+		- Container Images  # Is s static file used to define the application and its dependencies
+							# It is non-executable 
+							# Composed of various layers 
+			
+		
+		- Containers 		# Container is an executable units of Container Images
+
+			
+							
+		
+		- Container Registry 	# Version Control or save the Container Images. 
+		
+			- Container Repository - Are the subset of Container Registry
+		
+		
+		
+		Docker Cli Commands :
+		
+			docker --version 
+			
+			docker images			# TO list the images in local machine  
+			
+			docker ps 				# To list the Active/Running containers 
+			
+			docker ps -a 			# To list the Active/Inactive containers 
+			
+			docker pull 			# Download a Container Images to Local Machine 
+			
+				# docker pull <image_name>:<tag/version> 
+				
+				# docker pull <image_name> 			# Download the latest version 
+				
+			docker run 				# Create a Container based on the Container Image and execute it.
+			
+				# docker run <image_name>
+				
+				
+			Modes of Container Execution :::
+			
+				- Background / Detached Mode 
+				
+					- docker run -d ubuntu sleep 20 
+				
+				- Foreground / Attached Mode 	
+
+					- docker run ubuntu sleep 20 
+					
+				
+				- Interactive Mode 
+				
+					- docker run -it ubuntu bash
+					
+					- exit 							# Exit from interactive Mode 
+													# Stop the container 
+				
+			
+			- Start the Container 
+				
+				docker start <container_id>
+				
+				
+			- Login to the Running COntainer :::
+			
+				docker exec -it <container_id> bash 			# Login to running container 
+				
+				exit 											# Log-off
+			
+			- Stop the Container 
+				
+				docker stop <container_id>				
+			
+			- Remove the Container 
+				
+				docker rm <container_id>		
+				
+			- Remove the Image
+				
+				docker rmi <image_name>
+				
+				
+				
+		- Container Network 
+		
+			- Port Mapping / Binding 	::::
+			
+				- Is used to expose the Container Application.
+				
+				
+				docker run -p <host_port:container:port> tomcat:8.0 
+			
+				docker run -p 8089:8080 tomcat:8.0 
+			
+					http://15.206.80.150:8089/
+					
+				docker run -p 8080:8080 tomcat:8.0 
+				
+				docker run -p 8501:8501 ml-model-ui 
+
+				docker run -p 8000:8000 ml-model-api 
+		
+
+		- Create Container Images 		- To be used in CICD Pipeline
+		
+		
+			Using Docker Build Command ::::
+			
+				- Dockerfile --> Composed of set of instructions to define the properties of Container Image 
+				
+				
+				docker build -t <Container_Repo_Name>/<New_Application_Container_Image_Name>:v1.0	.	
+				
+				
+				Eg.: 
+					docker build -t loksaieta/mydummyappimg1:v1.0 .			# '.' is used to refer the default Dockerfile 
+																			# Execute this command from the path where we have Dockerfile
+																			
+																			
+			vi Dockerfile							# ML Engg./ Developers create Dockerfile and maintain in Source Code Repository.
+			
+			
+			FROM ubuntu 
+			RUN apt update -y 
+			RUN apt install git -y 
+			RUN apt install nginx -y
+			
+				docker build -t loksaieta/mydummyappimg1:v1.0 .
+				
+				
+		- Push the Container Image to Container Registry 
+		
+			docker login 										# Login to Container Registry 
+																# DockerHub User_Name and Access Token 
+																
+					docker login -u loksaieta
+					
+					asdfasdfasdfasdfa
+					
+			
+			docker push loksaieta/dummymlopsimg:v1.0
+			
+			
+			Developer :
+			
+				source_code :
+				
+					index.html 		--> index.html_V1.0
+					
+				build 
+				
+					Docker image 	--> indexpageimg:V1.0
+				
+				
+	Dockerfile Instructions :
+	
+			FROM 									# To Identify the Base Image
+			RUN 									# To run the package manager
+			COPY 									# To Copy the file from host volume to container volume
+			CP 										# To Copy the file within the container volumes 
+			ADD 									# To Copy the file from Host Volume as well as from URL
+			ENV 									# To define the Environment Variable 
+			ARG 									# To pass Arguements to the Steps in Dockerfile 
+			EXPOSE									# To Define the Container Port 
+			WORKDIR									# To set the current working directory within the Container 
+			CMD										# To set the default start-up command to the container 
+													  This Command can be changed at run-time.
+			ENTRYPOINT								# To set the default start-up command to the container 				
+				
+			
+			
+			
+			Image1 	--> ml-model-api v1.0
+			
+			Image2  --> ml-model-api v1.1
+			
+			Image3  --> ml-model-api v1.2
+			
+			
+			Start Container :
+			
+				start the api ::
+				
+					
+					ENTRYPOINT ml-model-api
+					
+					
+					CMD 	   v1.1	
+					
+					
+					docker run myapi-image v1.1
+					
+					
+					
+					
+		- Container Orchestration :
+		
+			--> Docker Compose 
+								
+								- Used to execute multiple containers as a Service 
+								
+								- Prepare docker compose yaml file to define the properties of all the containers
+								
+			--> Docker Swarm ::
+			
+				- To Ensure High Availability of the Container
+				- It create the replicas of containers 
+				- Will not support Auto-Scalling & Load Balancing
+				
+
+								
+		Kubernetes ::::
+		
+			- It is a Open-Source Container Orchestration Tool 
+			- Kubernetes is used to Deploy any type of Containers.
+			- It is used to ensure high availability of the Applications/services running thru Containers.
+			- Used to Ensure High Availability of Containers by creating Replicas of Containers.
+			- It supports Auto-Scaling & Load Balancing.
+
+			- Self-healing Capability!
+			
+			- Using this we can achieve Continuous Deployment
+			
+			
+Next :::
+
+		Kubernetes Architecture Components 
+		
+		Kubernetes Pods 
+		
+		Kubernetes Deployments 
+		
+		Kubernetes Service 
+		
+		Kubeflow 
+			
+		kubeadm(Production_grade - with multinode cluster) / minikube / k3s / KIND 			# Type of installation 
+
+
+		Working with MLOps using ML Project
+			
+			- git, dvc, s3, docker, mlflow, kubernetes	==> CICD using Github-Actions 
